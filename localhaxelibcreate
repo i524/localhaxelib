@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ ! -d "lib" ]
+then
+  mkdir lib
+fi
+if [ ! -d "bin" ]
+then
+  mkdir bin
+fi
+echo "`pwd`/lib/" > .haxelib
+cat <<EOF > bin/localhaxelibenter
+_OLD_HOME="$HOME"
+export _OLD_HOME
+HOME="`pwd`"
+export HOME
+_OLD_PS1="$PS1"
+export _OLD_PS1
+PS1="(`basename \`pwd\``)$PS1"
+EOF
+cat <<EOF > bin/localhaxelibexit
+HOME="$_OLD_HOME"
+export HOME
+unset _OLD_HOME
+PS1="$_OLD_PS1"
+unset _OLD_PS1
+EOF
